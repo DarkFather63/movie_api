@@ -5,6 +5,10 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
+
 const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Models = require('./model.js');
@@ -55,7 +59,7 @@ app.post('/users', (req, res) => {
 });
 
 //READ: GET all movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', {session:false}), (req, res) => {
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
