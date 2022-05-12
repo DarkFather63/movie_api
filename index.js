@@ -84,9 +84,9 @@ app.get('/movies/:Title', (req, res) => {
 
 //READ: GET movie(s) by genre
 app.get('/genre/:Name', (req, res) => {
-  Movies.find({ Name: req.params.Name })
+  Movies.findOne({ 'Genre.Name': req.params.Name })
     .then((movies) => {
-      res.json(movies.genre.Description);
+      res.json(movies.Genre.Description);
     })
     .catch((err) => {
       console.error(err);
@@ -94,11 +94,12 @@ app.get('/genre/:Name', (req, res) => {
     });
 });
 
+//REMEMBER SCHEMA IS CASE SENSITIVE
 //READ: GET info about a director
 app.get('/director/:Name', (req, res) => {
   Movies.findOne({ 'Director.Name': req.params.Name })
     .then((movies) => {
-      res.json(movies.director);
+      res.json(movies.Director);
     })
     .catch((err) => {
       console.error(err);
