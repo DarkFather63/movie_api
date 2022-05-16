@@ -39,6 +39,12 @@ mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifie
 app.use(bodyParser.json());
 
 
+
+app.get('/', (req, res) => {
+  res.send('Welcome to my movie app!');
+});
+
+
 //CREATE
 //Add a user
 /* We'll expect JSON in this format in the request body:
