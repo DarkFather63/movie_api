@@ -10,8 +10,8 @@ let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
 app.use(cors({
   origin: (origin, callback) => {
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
       let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
       return callback(new Error(message), false);
     }
@@ -26,14 +26,14 @@ require('./passport');
 const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Models = require('./model.js');
-const{check, validationResult} = require ('express-validator');
+const { check, validationResult } = require('express-validator');
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
 //mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 app.use(bodyParser.json());
@@ -57,15 +57,15 @@ app.get('/', (req, res) => {
 }
 */
 app.post('/users', [
-  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username is required').isLength({ min: 5 }),
   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid.').isEmail()
 ], (req, res) => {
   let errors = validationResult(req);
 
-  if (!errors.isEmpty()){
-    return res.status(422).json({errors: errors.array()});
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
   }
 
   let hashedPassword = Users.hashPassword(req.body.Password);
@@ -81,11 +81,11 @@ app.post('/users', [
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
-          .then((user) =>{res.status(201).json(user) })
-        .catch((error) => {
-          console.error(error);
-          res.status(500).send('Error:' + error);
-        })
+          .then((user) => { res.status(201).json(user) })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error:' + error);
+          })
       }
     })
     .catch((error) => {
@@ -95,7 +95,7 @@ app.post('/users', [
 });
 
 //READ: GET all movies
-app.get('/movies', passport.authenticate('jwt', {session:false}), (req, res) => {
+app.get('/movies', (req, res) => {
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -182,29 +182,30 @@ app.get('/users/:Username', (req, res) => {
 }
 */
 app.put('/users/:Username', [
-  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username is required').isLength({ min: 5 }),
   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
   check('Email', 'Email does not appear to be valid.').isEmail()
 ], (req, res) => {
   let errors = validationResult(req);
 
-  if (!errors.isEmpty()){
-    return res.status(422).json({errors: errors.array()});
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
   }
 
   Users.findOneAndUpdate({ Username: req.params.Username },
-  { $set:
     {
-      Username: req.body.Username,
-      Password: req.body.Password,
-      Email: req.body.Email,
-      Birthday: req.body.Birthday
-    }
-  },
-  { new: true }, //this line makes sure that the updated document is returned
+      $set:
+      {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      }
+    },
+    { new: true }, //this line makes sure that the updated document is returned
     (err, updatedUser) => {
-      if(err) {
+      if (err) {
         console.error(err);
         res.status(500).send('Error:' + err);
       } else {
@@ -257,10 +258,10 @@ app.delete('/users/:Username', (req, res) => {
         res.status(200).send(req.params.Username + ' was deleted.');
       }
     })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      });
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 
