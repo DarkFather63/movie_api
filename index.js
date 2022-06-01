@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234'];
 
+//Disallow cross origin access
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
@@ -32,7 +33,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 //mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect('process.env.CONNECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://process.env.CONNECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(bodyParser.json());
 
