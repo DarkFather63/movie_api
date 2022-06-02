@@ -144,7 +144,7 @@ app.get('/director/:Name', (req, res) => {
 
 
 // READ: GET all users
-app.get('/users', (req, res) => {
+app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.find()
     .then((users) => {
       res.status(201).json(users);
