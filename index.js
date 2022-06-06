@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
   Birthday: Date
 }
 */
-app.post('/users', [
+app.post('/Users', [
   check('Username', 'Username is required').isLength({ min: 5 }),
   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
@@ -144,7 +144,7 @@ app.get('/director/:Name', (req, res) => {
 
 
 // READ: GET all users
-app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/Users', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.find()
     .then((users) => {
       res.status(201).json(users);
@@ -156,7 +156,7 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
 });
 
 //READ: GET a user by username
-app.get('/users/:Username', (req, res) => {
+app.get('/Users/:Username', (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
       res.json(user);
@@ -180,7 +180,7 @@ app.get('/users/:Username', (req, res) => {
   Birthday: Date
 }
 */
-app.put('/users/:Username', [
+app.put('/Users/:Username', [
   check('Username', 'Username is required').isLength({ min: 5 }),
   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
@@ -214,7 +214,7 @@ app.put('/users/:Username', [
 });
 
 //UPDATE: Add a movie to a user's list of favorites
-app.post('/users/:Username/movies/:MovieID', (req, res) => {
+app.post('/Users/:Username/movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username },
     {
       $push: { FavoriteMovies: req.params.MovieID }
@@ -231,7 +231,7 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 });
 
 //DELETE - allows user to remove a movie from their favorites
-app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+app.delete('/Users/:Username/movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username },
     {
       $pull: { FavoriteMovies: req.params.MovieID }
@@ -248,7 +248,7 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
 });
 
 //DELETE - allows a user to be deleted via username
-app.delete('/users/:Username', (req, res) => {
+app.delete('/Users/:Username', (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
