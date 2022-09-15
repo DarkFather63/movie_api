@@ -7,179 +7,182 @@ from their favorites list. Created for practice in Node and Express.
 ###Endpoints:
 
 **Return a list of ALL movies to the user**
-  When a user wants to see the full list of movies, the response will send it according to their request.
+When a user wants to see the full list of movies, the response will send it according to their request.
 
-  URL: localhost:8080/movies/
+URL: localhost:8080/movies/
 
-  Method: GET
+Method: GET
 
-  Query Parameters: movies
+Query Parameters: movies
 
-  Expected body data format: none (this is a simple request and response, no body needed)
+Expected body data format: none (this is a simple request and response, no body needed)
 
-  Response format: array
-    Example: > [
-            >{
-            >  'Title':'Seven Samurai'
-            >},
-            >{
-            >  'Title': 'Alien'
-            >} etc.
-            >]
+Response format: array
+Example: > [
+>{
+> 'Title':'Seven Samurai'
+>},
+>{
+> 'Title': 'Alien'
+>} etc.
+>]
 
 **Return data (description, genre, director, image URL, whether it’s featured or not)
 about a single movie by title to the user**
-    Allows users to search for a movie by title. *Remember to use '%20' for spaces in titles!!*
+Allows users to search for a movie by title. *Remember to use '%20' for spaces in titles!!*
 
-    URL: localhost:8080/movies/:title
+URL: localhost:8080/movies/:title
 
-    Method: GET
+Method: GET
 
-    Query Parameters: movie, title
+Query Parameters: movie, title
 
-    Expected body data format: none (this is a simple request and response, no body needed)
+Expected body data format: none (this is a simple request and response, no body needed)
 
-    Response format: object
-      Example:
-      {
-        'Title':'Seven Samurai'
-      }
+Response format: object
+Example:
+{
+'Title':'Seven Samurai'
+}
 
 
 **Return data about a genre (description) by name/title (e.g., “Thriller”)**
-    Allows a user to search for genres
+Allows a user to search for genres
 
-    URL: localhost:8080/movies/genre/:genrename
+URL: localhost:8080/movies/genre/:genrename
 
-    Method: GET
+Method: GET
 
-    Query Parameters: genre, genreName
+Query Parameters: genre, genreName
 
-    Expected body data format: none (this is a simple request and response, no body needed)
+Expected body data format: none (this is a simple request and response, no body needed)
 
-    Response format: object
-      Example: 'Genre':{
-        'Name':'Fantasy',
-        'Description': 'Fantasy is a genre of speculative fiction involving magical elements, typically set in a fictional universe and sometimes inspired by mythology and folklore. '
-      }
+Response format: object
+Example: 'Genre':{
+'Name':'Fantasy',
+'Description': 'Fantasy is a genre of speculative fiction involving magical elements, typically set in a fictional
+universe and sometimes inspired by mythology and folklore. '
+}
 
 **Return data about a director (bio, birth year, death year) by name**
-    Allows a user to search for directors by name
+Allows a user to search for directors by name
 
-    URL: localhost:8080/movies/director/:directorName
+URL: localhost:8080/movies/director/:directorName
 
-    Method: GET
+Method: GET
 
-    Query Parameters: director, directorName
+Query Parameters: director, directorName
 
-    Expected body data format: none (this is a simple request and response, no body needed)
+Expected body data format: none (this is a simple request and response, no body needed)
 
-    Response format: object
-      Example: 'Director':{
-        'Name':'Peter Jackson',
-        'Bio':'Sir Peter Robert Jackson ONZ KNZM is a New Zealand film director, screenwriter, and film producer. He is best known as the director, writer, and producer of the Lord of the Rings trilogy and the Hobbit trilogy, both of which are adapted from the novels of the same name by J. R. R. Tolkien.'
-      }
+Response format: object
+Example: 'Director':{
+'Name':'Peter Jackson',
+'Bio':'Sir Peter Robert Jackson ONZ KNZM is a New Zealand film director, screenwriter, and film producer. He is best
+known as the director, writer, and producer of the Lord of the Rings trilogy and the Hobbit trilogy, both of which are
+adapted from the novels of the same name by J. R. R. Tolkien.'
+}
 
 **Allow new users to register**
-    Allows a user to register
+Allows a user to register
 
-    URL: localhost:8080/users
+URL: localhost:8080/users
 
-    Method: POST
+Method: POST
 
-    Query Parameters: newUser, name, id
+Query Parameters: newUser, name, id
 
-    Expected body data format: JSON object
-      Example: {
-                "name": "Mary",
-                "favoriteMovies" : []
-                }
+Expected body data format: JSON object
+Example: {
+"name": "Mary",
+"favoriteMovies" : []
+}
 
-    Response format: JSON object (with new ID thanks to uuid module)
-      Example: {
-                "name": "Mary",
-                "favoriteMovies": [],
-                "id": "addd84d2-6562-4497-b350-85a9e8ff9bb6"
-            }
+Response format: JSON object (with new ID thanks to uuid module)
+Example: {
+"name": "Mary",
+"favoriteMovies": [],
+"id": "addd84d2-6562-4497-b350-85a9e8ff9bb6"
+}
 
 **Allow users to update their user info (username)**
-    Allows a user to update their username.
+Allows a user to update their username.
 
-    URL: localhost:8080/users/:id
+URL: localhost:8080/users/:id
 
-    Method: PUT
+Method: PUT
 
-    Query Parameters: id
+Query Parameters: id
 
-    Expected body data format: JSON object (in example user was originally named "Kim")
-      Example: {
-                "name": "Kim Updated Name",
-                "favoriteMovies": []
-            }
+Expected body data format: JSON object (in example user was originally named "Kim")
+Example: {
+"name": "Kim Updated Name",
+"favoriteMovies": []
+}
 
-    Response format: JSON object with updated username
-      Example: {
-              "id": 1,
-              "name": "Kim Updated Name",
-              "favoriteMovies": []
-              }
+Response format: JSON object with updated username
+Example: {
+"id": 1,
+"name": "Kim Updated Name",
+"favoriteMovies": []
+}
 
 **Allow users to add a movie to their list of favorites**
-    Allows a user to add movies.
+Allows a user to add movies.
 
-    URL: localhost:8080/users/:id/:movieTitle
+URL: localhost:8080/users/:id/:movieTitle
 
-    Method: POST
+Method: POST
 
-    Query Parameters: id, movieTitle
+Query Parameters: id, movieTitle
 
-    Expected body data format: JSON object, and movie title in URL
-      Example: {
-                "name": "John",
-                "favoriteMovies": []
-            }
+Expected body data format: JSON object, and movie title in URL
+Example: {
+"name": "John",
+"favoriteMovies": []
+}
 
-    Response format: JSON object with added movie
-      Example: {
-              "id": 1,
-              "name": "John",
-              "favoriteMovies": [
-                "title": "Alien"
-              ]
-              }
+Response format: JSON object with added movie
+Example: {
+"id": 1,
+"name": "John",
+"favoriteMovies": [
+"title": "Alien"
+]
+}
 
 **Allow users to remove a movie from their list of favorites**
-    Allows a user to delete movies.
+Allows a user to delete movies.
 
-    URL: localhost:8080/users/:id/:movieTitle
+URL: localhost:8080/users/:id/:movieTitle
 
-    Method: DELETE
+Method: DELETE
 
-    Query Parameters: id, movieTitle
+Query Parameters: id, movieTitle
 
-    Expected body data format: JSON object, and movie title in URL
-      Example: {
-                "name": "John",
-                "favoriteMovies": []
-            }
+Expected body data format: JSON object, and movie title in URL
+Example: {
+"name": "John",
+"favoriteMovies": []
+}
 
-    Response format: String response
-      Example: "Movie1 has been removed from user1's array."
+Response format: String response
+Example: "Movie1 has been removed from user1's array."
 
 **Allow existing users to deregister**
-    Allows a user to delete account.
+Allows a user to delete account.
 
-    URL: localhost:8080/users/:id
+URL: localhost:8080/users/:id
 
-    Method: DELETE
+Method: DELETE
 
-    Query Parameters: id
+Query Parameters: id
 
-    Expected body data format: JSON object, user ID in URL
-      Example: {
-                "name": "John",
-                "favoriteMovies": []
-            }
+Expected body data format: JSON object, user ID in URL
+Example: {
+"name": "John",
+"favoriteMovies": []
+}
 
-    Response format: String response
-      Example: "User1 has been deleted."
+Response format: String response
+Example: "User1 has been deleted."
