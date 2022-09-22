@@ -6,7 +6,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://eryn-moviedb.herokuapp.com/movies', 'https://erynsawesomemyflix.netlify.app'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://eryn-moviedb.herokuapp.com/movies', 'https://erynsawesomemyflix.netlify.app', 'http://localhost:4200'];
 
 //Disallow cross origin access
 app.use(cors({
