@@ -2,9 +2,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://eryn-moviedb.herokuapp.com/movies', 'https://erynsawesomemyflix.netlify.app', 'http://localhost:4200'];
 
@@ -19,6 +16,9 @@ app.use(cors({
     return callback(null, true);
   }
 }));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 let auth = require('./auth')(app);
 const passport = require('passport');
