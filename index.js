@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://eryn-moviedb.herokuapp.com/movies', 'https://erynsawesomemyflix.netlify.app', 'http://localhost:4200', 'https://darkfather63.github.io/myFlix-Angular-client', 'https://darkfather63.github.io'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://eryn-moviedb.herokuapp.com/movies', 'https://erynsawesomemyflix.netlify.app', 'http://localhost:4200', 'https://darkfather63.github.io/myFlix-Angular-client/', 'https://darkfather63.github.io'];
 
 //Disallow cross origin access
 app.use(cors({
