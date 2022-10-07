@@ -28,6 +28,7 @@ const uuid = require('uuid');
 const mongoose = require('mongoose');
 const Models = require('./model.js');
 const { check, validationResult } = require('express-validator');
+const { application } = require('express');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -38,22 +39,24 @@ mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnified
 app.use(bodyParser.json());
 
 
-
+/** Gets the main endpoint from the application. **/
 app.get('/', (req, res) => {
   res.send('Welcome to my movie app!');
 });
 
 
-//CREATE
-//Add a user
-/* We'll expect JSON in this format in the request body:
-{
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
-}
+/** CREATE
+* Add a user
+* We'll expect JSON in this format in the request body:
+*{
+*  ID: Integer,
+* Username: String,
+* Password: String,
+* Email: String,
+* Birthday: Date
+*}
+* @param users
+* @returns new user
 */
 app.post('/Users', [
   check('Username', 'Username is required').isLength({ min: 5 }),
@@ -93,7 +96,12 @@ app.post('/Users', [
     });
 });
 
-//READ: GET all movies
+/** READ
+* Get all movies
+* No body needed in request
+* @param movies
+* @returns movies array
+*/
 app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
     .then((movies) => {
@@ -105,7 +113,13 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
     });
 });
 
-//READ: GET a movie by title
+/** READ
+* Get one movie
+* No body needed in request
+* @param movies
+* @param title
+* @returns movie object
+*/
 app.get('/movies/:Title', (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
@@ -117,7 +131,13 @@ app.get('/movies/:Title', (req, res) => {
     });
 });
 
-//READ: GET movie(s) by genre
+/** READ
+* Get movie(s) by genre
+* No body needed in request
+* @param genre
+* @param genreName
+* @returns genre object
+*/
 app.get('/genre/:Name', (req, res) => {
   Movies.findOne({ 'Genre.Name': req.params.Name })
     .then((movies) => {
@@ -130,7 +150,13 @@ app.get('/genre/:Name', (req, res) => {
 });
 
 //REMEMBER SCHEMA IS CASE SENSITIVE
-//READ: GET info about a director
+/** READ
+* Get director
+* No body needed in request
+* @param director
+* @param directorName
+* @returns director object
+*/
 app.get('/director/:Name', (req, res) => {
   Movies.findOne({ 'Director.Name': req.params.Name })
     .then((movies) => {
@@ -143,7 +169,13 @@ app.get('/director/:Name', (req, res) => {
 });
 
 
-// READ: GET all users
+/** READ
+* Get all users
+* No body needed in request
+* @param users
+* @returns users array
+* for use only in database maintenance
+*/
 app.get('/Users', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.find()
     .then((users) => {
@@ -155,7 +187,13 @@ app.get('/Users', passport.authenticate('jwt', { session: false }), (req, res) =
     });
 });
 
-//READ: GET a user by username
+/** READ
+* Get a user by username
+* No body needed in request
+* @param users
+* @param username
+* @returns user object
+*/
 app.get('/Users/:Username', (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
@@ -167,19 +205,23 @@ app.get('/Users/:Username', (req, res) => {
     });
 });
 
-//UPDATE
-//Update a user's info, by username
-/* We expec JSON in this format:
-{
-  Username: String,
-  (required)
-  Password: String,
-  (required)
-  Email: String,
-  (required)
-  Birthday: Date
-}
+/** UPDATE
+* PUT update to user
+* Request body expected in JSON format:
+* {
+*  Username: String,
+*  (required)
+*  Password: String,
+*  (required)
+*  Email: String,
+*  (required)
+*  Birthday: Date
+* }
+
+* @param id
+* @returns updated user
 */
+
 app.put('/Users/:Username', [
   check('Username', 'Username is required').isLength({ min: 5 }),
   check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
@@ -213,7 +255,18 @@ app.put('/Users/:Username', [
     });
 });
 
-//UPDATE: Add a movie to a user's list of favorites
+
+/**  UPDATE
+* Post one movie to user's list of favorites
+* Expected body data format: JSON object, and movie title in URL
+* Example: {
+* "name": "John",
+* "favoriteMovies": []
+* }
+* @param userId
+* @param movieId
+* @returns movie object in user array
+*/
 app.post('/Users/:Username/movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username },
     {
@@ -231,6 +284,17 @@ app.post('/Users/:Username/movies/:MovieID', (req, res) => {
 });
 
 //DELETE - allows user to remove a movie from their favorites
+/** DELETE
+* Delete one movie from user's list of favorites
+* Expected body data format: JSON object, and movie title in URL
+* Example: {
+* "name": "John",
+* "favoriteMovies": []
+* }
+* @param userId
+* @param movieId
+* @returns updated favorites array
+*/
 app.delete('/Users/:Username/movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username },
     {
@@ -248,6 +312,16 @@ app.delete('/Users/:Username/movies/:MovieID', (req, res) => {
 });
 
 //DELETE - allows a user to be deleted via username
+/**  DELETE
+* Post one movie to user's list of favorites
+* Expected body data format: JSON object, and user id in URL
+* Example: {
+* "name": "John",
+* "favoriteMovies": []
+* }
+* @param userId
+* @returns string response if success
+*/
 app.delete('/Users/:Username', (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
