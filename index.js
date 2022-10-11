@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://eryn-moviedb.herokuapp.com/movies', 'https://erynsawesomemyflix.netlify.app', 'http://localhost:4200', 'https://darkfather63.github.io/myFlix-Angular-client', 'https://darkfather63.github.io'];
 
-//Disallow cross origin access
+/** Disallow cross origin access */
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
@@ -39,7 +39,7 @@ mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnified
 app.use(bodyParser.json());
 
 
-/** Gets the main endpoint from the application. **/
+/** Gets the main endpoint from the application. */
 app.get('/', (req, res) => {
   res.send('Welcome to my movie app!');
 });
@@ -217,7 +217,6 @@ app.get('/Users/:Username', (req, res) => {
 *  (required)
 *  Birthday: Date
 * }
-
 * @param id
 * @returns updated user
 */
